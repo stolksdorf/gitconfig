@@ -49,31 +49,24 @@
 	laa  = log --graph  --pretty=format:'%C(yellow)%h%Creset -%C(cyan)%d %Creset%s %C(bold blue)<%an>%Creset (%cr)' --abbrev-commit --all
 
 	;Basic
+	m   = merge --no-ff
 	st  = status -s
 	b   = branch -vv
 
 	co  = checkout
 	com = checkout master
-	coc = checkout DEVELOPMENT
-	cod = checkout development
 
-	update = "!git remote update -p; git pull --rebase"
+
 	up     = "!git pull --rebase"
 
 	;Branches
 	new      = "!f(){ git checkout -b $1; git push -u origin $1;};f"
 	remove   = "!f(){ git branch -D $1; git push origin :$1;}; f"
-	cleanup = "!git branch --merged | grep -v \"*\" | xargs -n 1 git branch -d"
+
 	fixed    = "!git add -A; git rebase --continue"
-
-	sync    = "!f(){ git up && git co $1 && git up && git co - && git rebase $1 && git push --force;}; f"
-	syncm   = "!git sync master"
-	syncd   = "!git sync development"
-	syncc   = "!git sync DEVELOPMENT"
-	jetpack = "!git rebase --abort"
-	overhere= "!f(){ git branch -f $1 && git co $1;}; f"
-
-	flush = "!git reset --hard"
+	jetpack  = "!git rebase --abort"
+	overhere = "!f(){ git branch -f $1 && git co $1;}; f"
+	flush    = "!git reset --hard"
 
 	stageit = "!f(){ git branch -f staging && git push staging --force;}; f"
 
@@ -81,3 +74,7 @@
 	c      = "!f() { git status -s && git add -A && git commit -m \"$1\";}; f"
 	track  = "!f(){ git branch -u origin/$1;};f"
 	oops   = "!git add -A && git commit --amend -C HEAD"
+
+	;;Cerulean Speicifc
+	coc = checkout DEVELOPMENT
+	cod = checkout development
