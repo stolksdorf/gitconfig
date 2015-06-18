@@ -1,0 +1,83 @@
+[core]
+	symlinks = false
+	ignorecase = false
+	autocrlf = true
+	longpaths = true
+[color]
+	ui = auto
+	diff = auto
+	status = auto
+	branch = auto
+	interactive = true
+[color "branch"]
+	current = yellow reverse
+	local = yellow
+	remote = green
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+[color "status"]
+	added = yellow
+	changed = green
+	untracked = cyan
+[pack]
+	packSizeLimit = 2g
+[help]
+	format = html
+[http]
+	sslCAinfo = /bin/curl-ca-bundle.crt
+[sendemail]
+	smtpserver = /bin/msmtp.exe
+[diff "astextplain"]
+	textconv = astextplain
+[rebase]
+	autosquash = true
+[user]
+	email = scott.tolksdorf@gmail.com
+	name = Scott Tolksdorf
+[push]
+	default = simple
+[pull]
+	default = simple
+
+[alias]
+	;Logs
+	cmds = "!git config -l | grep alias | cut -c 7-"
+	la   = log --graph --decorate --pretty=oneline --abbrev-commit --all
+	laa  = log --graph  --pretty=format:'%C(yellow)%h%Creset -%C(cyan)%d %Creset%s %C(bold blue)<%an>%Creset (%cr)' --abbrev-commit --all
+
+	;Basic
+	st  = status -s
+	b   = branch -vv
+
+	co  = checkout
+	com = checkout master
+	coc = checkout DEVELOPMENT
+	cod = checkout development
+
+	update = "!git remote update -p; git pull --rebase"
+	up     = "!git pull --rebase"
+
+	;Branches
+	new      = "!f(){ git checkout -b $1; git push -u origin $1;};f"
+	remove   = "!f(){ git branch -D $1; git push origin :$1;}; f"
+	cleanup = "!git branch --merged | grep -v \"*\" | xargs -n 1 git branch -d"
+	fixed    = "!git add -A; git rebase --continue"
+
+	sync    = "!f(){ git up && git co $1 && git up && git co - && git rebase $1 && git push --force;}; f"
+	syncm   = "!git sync master"
+	syncd   = "!git sync development"
+	syncc   = "!git sync DEVELOPMENT"
+	jetpack = "!git rebase --abort"
+	overhere= "!f(){ git branch -f $1 && git co $1;}; f"
+
+	flush = "!git reset --hard"
+
+	stageit = "!f(){ git branch -f staging && git push staging --force;}; f"
+
+	;Commits
+	c      = "!f() { git status -s && git add -A && git commit -m \"$1\";}; f"
+	track  = "!f(){ git branch -u origin/$1;};f"
+	oops   = "!git add -A && git commit --amend -C HEAD"
